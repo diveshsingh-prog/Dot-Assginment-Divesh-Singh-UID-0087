@@ -12,10 +12,10 @@
                 c => new
                     {
                         AddressId = c.Int(nullable: false, identity: true),
-                        Street = c.String(nullable: false),
-                        City = c.String(nullable: false),
-                        State = c.String(nullable: false),
-                        PinCode = c.String(nullable: false),
+                        Street = c.String(nullable: false, maxLength: 100),
+                        City = c.String(nullable: false, maxLength: 50),
+                        State = c.String(nullable: false, maxLength: 50),
+                        PinCode = c.String(nullable: false, maxLength: 30),
                         AddressType = c.Int(nullable: false),
                         CreatedAt = c.DateTime(nullable: false),
                         UpdatedAt = c.DateTime(nullable: false),
@@ -28,7 +28,7 @@
                     {
                         ItemId = c.Int(nullable: false, identity: true),
                         RestaurantId = c.Int(nullable: false),
-                        DishName = c.String(nullable: false),
+                        DishName = c.String(nullable: false, maxLength: 50),
                         Price = c.Decimal(nullable: false, precision: 18, scale: 2),
                         AvailableQuantity = c.Int(nullable: false),
                         CreatedAt = c.DateTime(nullable: false),
@@ -43,9 +43,9 @@
                 c => new
                     {
                         RestaurantId = c.Int(nullable: false, identity: true),
-                        Name = c.String(nullable: false),
+                        Name = c.String(nullable: false, maxLength: 50),
                         AddressId = c.Int(nullable: false),
-                        Email = c.String(nullable: false, maxLength: 255),
+                        Email = c.String(nullable: false, maxLength: 100),
                         PhoneNumber = c.String(nullable: false, maxLength: 20),
                         IsActive = c.Boolean(nullable: false),
                         CreatedAt = c.DateTime(nullable: false),
@@ -66,7 +66,7 @@
                         RestaurantId = c.Int(nullable: false),
                         TotalAmount = c.Decimal(nullable: false, precision: 18, scale: 2),
                         Status = c.Int(nullable: false),
-                        Address = c.String(nullable: false),
+                        Address = c.String(nullable: false, maxLength: 255),
                         OrderedDate = c.DateTime(nullable: false),
                         UpdatedAt = c.DateTime(nullable: false),
                     })
@@ -81,9 +81,9 @@
                 c => new
                     {
                         userId = c.Int(nullable: false, identity: true),
-                        Name = c.String(nullable: false),
+                        Name = c.String(nullable: false, maxLength: 100),
                         Password = c.String(nullable: false),
-                        Email = c.String(nullable: false, maxLength: 255),
+                        Email = c.String(nullable: false, maxLength: 100),
                         BirthDate = c.DateTime(nullable: false, storeType: "date"),
                         IsActive = c.Boolean(nullable: false),
                         PhoneNumber = c.String(nullable: false, maxLength: 20),
@@ -104,7 +104,7 @@
                         OrderItemId = c.Int(nullable: false, identity: true),
                         OrderId = c.Int(nullable: false),
                         ItemId = c.Int(nullable: false),
-                        ItemName = c.String(nullable: false),
+                        ItemName = c.String(nullable: false, maxLength: 50),
                         Price = c.Decimal(nullable: false, precision: 18, scale: 2),
                         Quantity = c.Int(nullable: false),
                         CreatedAt = c.DateTime(nullable: false),
@@ -129,9 +129,16 @@
                 .ForeignKey("dbo.Users", t => t.UserId, cascadeDelete: true)
                 .Index(t => t.RestaurantId)
                 .Index(t => t.UserId);
-            
+            Sql("ALTER TABLE dbo.MenuItems ADD CONSTRAINT CK_mi_Price_NotNegative CHECK (Price >= 0);");
+            Sql("ALTER TABLE dbo.OrderItems ADD CONSTRAINT CK_oi_Price_NotNegative CHECK (Price >= 0);");
+            Sql("ALTER TABLE dbo.MenuItems ADD CONSTRAINT CK_AvailableQuantity_NotNegative CHECK (AvailableQuantity >= 0);");
+            Sql("ALTER TABLE dbo.OrderItems ADD CONSTRAINT CK_Quantity_NotNegative CHECK (Quantity >= 0);");
+            Sql("ALTER TABLE dbo.Orders ADD CONSTRAINT CK_TotalAmount_NotNegative CHECK (TotalAmount >= 0);");
+            Sql("ALTER TABLE dbo.Users ADD CONSTRAINT CK_Balance_NotNegative CHECK (Balance >= 0);");
+
+
         }
-        
+
         public override void Down()
         {
             DropForeignKey("dbo.RestaurantOwners", "UserId", "dbo.Users");
@@ -159,6 +166,12 @@
             DropTable("dbo.Restaurants");
             DropTable("dbo.MenuItems");
             DropTable("dbo.Addresses");
+            Sql("ALTER TABLE dbo.MenuItems DROP CONSTRAINT CK_mi_Price_NotNegative;");
+            Sql("ALTER TABLE dbo.OrderItems DROP CONSTRAINT CK_oi_Price_NotNegative;");
+            Sql("ALTER TABLE dbo.MenuItems DROP CONSTRAINT CK_AvailableQuantity_NotNegative;");
+            Sql("ALTER TABLE dbo.OrderItems DROP CONSTRAINT CK_Quantity_NotNegative;");
+            Sql("ALTER TABLE dbo.Orders DROP CONSTRAINT CK_TotalAmount_NotNegative;");
+            Sql("ALTER TABLE dbo.Users DROP CONSTRAINT CK_Balance_NotNegative;");
         }
     }
 }

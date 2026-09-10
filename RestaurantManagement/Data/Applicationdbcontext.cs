@@ -1,35 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Data.Entity;
+﻿
 using RestaurantManagement.Models.Entity;
-using System.Data;
-using System.Data.SqlTypes;
+using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration.Conventions;
+
 
 namespace RestaurantManagement.Data
 {
-    public class Applicationdbcontext : DbContext
+    public class ApplicationDbContext : DbContext
     {
-        public Applicationdbcontext() : base("name=DefaultConnection")
+        public ApplicationDbContext() : base("name=DefaultConnection")
         {
         }
-        public DbSet<User> User { get; set; }
-        public DbSet<Restaurant> Restaurant { get; set; }
-        public DbSet<RestaurantOwner> RestaurantOwner { get; set; }
-        public DbSet<MenuItem> MenuItem { get; set; }
-
-        public DbSet<Order> Order { get; set; }
-
-        public DbSet<OrderItem> OrderItem { get; set; }
-
-        public DbSet<Address> Address { get; set; }
-
+        public DbSet<User> Users { get; set; }
+        public DbSet<Restaurant> Restaurants { get; set; }
+        public DbSet<RestaurantOwner> RestaurantOwners { get; set; }
+        public DbSet<MenuItem> MenuItems { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<Address> Addresses { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-         
+            
 
         }
     }
 }
+
+

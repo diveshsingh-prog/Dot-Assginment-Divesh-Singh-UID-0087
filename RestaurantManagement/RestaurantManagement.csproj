@@ -136,14 +136,13 @@
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="check.cs" />
-    <Compile Include="Controllers\ValuesController.cs" />
-    <Compile Include="Data\Applicationdbcontext.cs" />
+    <Compile Include="Data\ApplicationDbContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202609100542468_inital.cs" />
-    <Compile Include="Migrations\202609100542468_inital.Designer.cs">
-      <DependentUpon>202609100542468_inital.cs</DependentUpon>
+    <Compile Include="Migrations\202609101926008_inital.cs" />
+    <Compile Include="Migrations\202609101926008_inital.Designer.cs">
+      <DependentUpon>202609101926008_inital.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Entity\Address.cs" />
@@ -162,6 +161,7 @@
   <ItemGroup>
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="beforeupdatedatabase.txt" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -173,6 +173,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\" />
+    <Folder Include="Controllers\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RestaurantManagement.tests\RestaurantManagement.tests.csproj">
@@ -184,8 +185,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202609100542468_inital.resx">
-      <DependentUpon>202609100542468_inital.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202609101926008_inital.resx">
+      <DependentUpon>202609101926008_inital.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
