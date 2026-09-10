@@ -1,24 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Web;
 
 namespace RestaurantManagement.Models.Entity
 {
     public class Restaurant
     {
+        private const int maxnamelength = 50;
+        private const int maxemaillength = 100;
+        private const int maxphonenumberlength = 20;
         [Key] public int RestaurantId { get; set; }
-        [Required] public string Name { get; set; }
+        [Required] [StringLength(maxnamelength)]public string Name { get; set; }
         [Required] public int AddressId { get; set; }
         [ForeignKey("AddressId")] public virtual Address Address { get; set; }
-        [Required] [StringLength(255)]  [Index(IsUnique =true)] public string Email { get; set; }
-        [Required][StringLength(20)] [Index(IsUnique = true)] public string PhoneNumber { get; set; }
+        [Required] [StringLength(maxemaillength)]  [Index(IsUnique =true)] public string Email { get; set; }
+        [Required][StringLength(maxphonenumberlength)] [Index(IsUnique = true)] public string PhoneNumber { get; set; }
 
-        [Required] public Boolean IsActive { get; set; } = true;
-        [Required] public DateTime CreatedAt { get; set; }= DateTime.Now;
-        [Required] public DateTime UpdatedAt { get; set; }= DateTime.Now;
+         public Boolean IsActive { get; set; } = true;
+         public DateTime CreatedAt { get; set; }= DateTime.Now;
+         public DateTime UpdatedAt { get; set; }= DateTime.Now;
 
 
     }

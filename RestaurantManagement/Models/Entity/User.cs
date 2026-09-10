@@ -1,28 +1,29 @@
 ﻿using RestaurantManagement.Models.Enum;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Web;
+
 
 namespace RestaurantManagement.Models.Entity
 {
     public class User
     {
+        private const int maxnamelength = 100;
+        private const int maxemaillength = 100;
+        private const int maxphonenumberlength = 20;
         [Key] public int userId { get; set; }
-        [Required] public string Name { get; set; }
+        [Required] [StringLength(maxnamelength)]public string Name { get; set; }
         [Required] public string Password { get; set; }
-        [Required][StringLength(255)][Index(IsUnique = true)] public string Email { get; set; }
+        [Required][StringLength(maxemaillength)][Index(IsUnique = true)] public string Email { get; set; }
         [Required] [Column(TypeName = "date")] public DateTime BirthDate { get; set; }
-        [Required] public Boolean IsActive { get; set; } = true;
-        [Required][StringLength(20)][Index(IsUnique = true)] public string PhoneNumber { get; set; }
-        [Required] public Decimal Balance { get; set; }
+        public Boolean IsActive { get; set; } = true;
+        [Required][StringLength(maxphonenumberlength)][Index(IsUnique = true)] public string PhoneNumber { get; set; }
+        [Required][Range(0.0,Double.MaxValue)] public decimal Balance { get; set; }
 
         [Required] public UserRole Role { get; set; }
-        [Required] public DateTime CreatedAt { get; set; } = DateTime.Now;
-        [Required] public DateTime UpdatedAt { get; set; } = DateTime.Now;
-        [Required] public DateTime Balance_Updated_At { get; set; } = DateTime.Now;
+       public DateTime CreatedAt { get; set; } = DateTime.Now;
+         public DateTime UpdatedAt { get; set; } = DateTime.Now;
+         public DateTime Balance_Updated_At { get; set; } = DateTime.Now;
 
 
 

@@ -16,7 +16,7 @@ namespace RestaurantManagement
         [Route("")]
         public void check()
         {
-            var check = new Applicationdbcontext().Database.Exists();
+            var check = new ApplicationDbContext().Database.Exists();
             System.Diagnostics.Debug.WriteLine("Database exists: " + check);
         }
     }
