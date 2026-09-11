@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations;
 using RestaurantManagement.Constants;
 
@@ -19,7 +19,7 @@ namespace RestaurantManagement.Models.Dto
         /// Gets or sets the user's password.
         /// </summary>
         [Required]
-        [StringLength(EntityConstants.MaxPasswordLength, MinimumLength =EntityConstants.MinPasswordLength)]
+        [StringLength(EntityConstants.MaxPasswordLength, MinimumLength = EntityConstants.MinPasswordLength)]
         [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,}$")]
         public string Password { get; set; }
 
@@ -34,7 +34,7 @@ namespace RestaurantManagement.Models.Dto
         /// Gets or sets the user's birth date.
         /// </summary>
         [Required]
-        public  DateTime BirthDate { get; set; }
+        public DateTime BirthDate { get; set; }
 
         /// <summary>
         /// Gets or sets the user's phone number.
