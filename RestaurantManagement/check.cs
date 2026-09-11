@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using RestaurantManagement.Data;
 using System.Web.Http;
-
-using RestaurantManagement.Data;
 
 
 namespace RestaurantManagement
@@ -21,3 +16,4 @@ namespace RestaurantManagement
         }
     }
 }
+

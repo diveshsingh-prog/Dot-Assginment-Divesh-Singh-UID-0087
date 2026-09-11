@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace RestaurantManagement.Models.Enum
+﻿namespace RestaurantManagement.Models.Enum
 {
     public enum UserRole
     {
@@ -12,3 +7,4 @@ namespace RestaurantManagement.Models.Enum
         Owner = 3
     }
 }
+

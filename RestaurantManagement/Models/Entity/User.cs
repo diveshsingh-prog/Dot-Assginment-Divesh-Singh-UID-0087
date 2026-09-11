@@ -2,8 +2,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
-
 namespace RestaurantManagement.Models.Entity
 {
     public class User
@@ -29,3 +27,4 @@ namespace RestaurantManagement.Models.Entity
 
     }
 }
+

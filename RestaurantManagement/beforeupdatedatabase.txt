@@ -13,3 +13,4 @@
             Sql("ALTER TABLE dbo.OrderItems DROP CONSTRAINT CK_Quantity_NotNegative;");
             Sql("ALTER TABLE dbo.Orders DROP CONSTRAINT CK_TotalAmount_NotNegative;");
             Sql("ALTER TABLE dbo.Users DROP CONSTRAINT CK_Balance_NotNegative;");
+
