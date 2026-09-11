@@ -1,7 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
+﻿
 namespace RestaurantManagement.Models.Entity
 {
     public class Restaurant
@@ -23,3 +20,4 @@ namespace RestaurantManagement.Models.Entity
 
     }
 }
+

@@ -1,7 +1,4 @@
 ﻿using RestaurantManagement.Models.Enum;
-using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RestaurantManagement.Models.Entity
 {
