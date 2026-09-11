@@ -1,7 +1,7 @@
 ﻿using RestaurantManagement.Models.Entity;
+using System.Data.Common;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
-
 
 namespace RestaurantManagement.Data
 {
