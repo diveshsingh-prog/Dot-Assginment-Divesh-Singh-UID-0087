@@ -3,6 +3,7 @@ using System.Web.Http;
 
 namespace RestaurantManagement
 {
+
     public static class WebApiConfig
     {
         public static void Register(HttpConfiguration config)
@@ -17,9 +18,7 @@ namespace RestaurantManagement
             routeTemplate: "api/{controller}/{id}",
             defaults: new { id = RouteParameter.Optional }
             );
-            var appXmlType = config.Formatters.XmlFormatter.SupportedMediaTypes
-                .FirstOrDefault(t => t.MediaType == "application/xml");
-            config.Formatters.XmlFormatter.SupportedMediaTypes.Remove(appXmlType);
+                       config.Formatters.Remove(config.Formatters.XmlFormatter);
 
         }
     }

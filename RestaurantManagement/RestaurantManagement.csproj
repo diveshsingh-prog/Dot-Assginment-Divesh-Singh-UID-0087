@@ -136,6 +136,7 @@
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Check.cs" />
+    <Compile Include="Constants\EntityConstants.cs" />
     <Compile Include="Data\ApplicationDbContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -144,8 +145,13 @@
     <Compile Include="Migrations\202609101926008_inital.Designer.cs">
       <DependentUpon>202609101926008_inital.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202609120726201_update.cs" />
+    <Compile Include="Migrations\202609120726201_update.Designer.cs">
+      <DependentUpon>202609120726201_update.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Entity\Address.cs" />
+    <Compile Include="Models\Entity\BaseEntity.cs" />
     <Compile Include="Models\Entity\MenuItem.cs" />
     <Compile Include="Models\Entity\Order.cs" />
     <Compile Include="Models\Entity\OrderItem.cs" />
@@ -187,6 +193,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202609101926008_inital.resx">
       <DependentUpon>202609101926008_inital.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202609120726201_update.resx">
+      <DependentUpon>202609120726201_update.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

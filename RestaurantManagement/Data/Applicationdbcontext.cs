@@ -1,5 +1,4 @@
-﻿
-using RestaurantManagement.Models.Entity;
+﻿using RestaurantManagement.Models.Entity;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
 
@@ -18,13 +17,11 @@ namespace RestaurantManagement.Data
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Address> Addresses { get; set; }
+        public DbSet<UserAddress> UserAdress { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            
-
         }
     }
 }
-
 
