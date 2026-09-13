@@ -149,6 +149,10 @@
     <Compile Include="Migrations\202609120726201_update.Designer.cs">
       <DependentUpon>202609120726201_update.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202609131654506_inital2.cs" />
+    <Compile Include="Migrations\202609131654506_inital2.Designer.cs">
+      <DependentUpon>202609131654506_inital2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Entity\Address.cs" />
     <Compile Include="Models\Entity\BaseEntity.cs" />
@@ -196,6 +200,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202609120726201_update.resx">
       <DependentUpon>202609120726201_update.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202609131654506_inital2.resx">
+      <DependentUpon>202609131654506_inital2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

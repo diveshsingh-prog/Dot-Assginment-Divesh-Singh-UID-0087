@@ -4,8 +4,15 @@ using System.Web.Http;
 namespace RestaurantManagement
 {
 
+    /// <summary>
+    /// Configures routing and response formatting for the Web API application.
+    /// </summary>
     public static class WebApiConfig
     {
+        /// <summary>
+        /// Registers attribute routing, the default API route, and JSON-only responses.
+        /// </summary>
+        /// <param name="config">The HTTP configuration to configure.</param>
         public static void Register(HttpConfiguration config)
         {
             // Web API configuration and services
