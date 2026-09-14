@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using RestaurantManagement.Constants;
 
 namespace RestaurantManagement.Models.Dto
 {
@@ -11,38 +12,35 @@ namespace RestaurantManagement.Models.Dto
         /// <summary>
         /// Gets or sets the user's name.
         /// </summary>
-        [Required(ErrorMessage = "Name is required.")]
-        [StringLength(100, ErrorMessage = "Name cannot exceed 100 characters.")]
+        [Required]
         public string Name { get; set; }
 
         /// <summary>
         /// Gets or sets the user's password.
         /// </summary>
-        [Required(ErrorMessage = "Password is required.")]
-        [StringLength(100, MinimumLength = 8, ErrorMessage = "The password must be at least 8 characters long.")]
-        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,}$",
-       ErrorMessage = "Password must contain an uppercase letter, lowercase letter, number, and special character.")]
-        [DataType(DataType.Password)]
+        [Required]
+        [StringLength(EntityConstants.MaxPasswordLength, MinimumLength =EntityConstants.MinPasswordLength)]
+        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,}$")]
         public string Password { get; set; }
 
         /// <summary>
         /// Gets or sets the user's email address.
         /// </summary>
-        [Required(ErrorMessage = "Email is required.")]
-        [EmailAddress(ErrorMessage = "Invalid email format.")]
-        [StringLength(100, ErrorMessage = "Email cannot exceed 100 characters.")]
+        [Required]
+        [EmailAddress]
         public string Email { get; set; }
 
         /// <summary>
         /// Gets or sets the user's birth date.
         /// </summary>
-        [Required(ErrorMessage = "Birth date is required.")]
+        [Required]
         public  DateTime BirthDate { get; set; }
 
         /// <summary>
         /// Gets or sets the user's phone number.
         /// </summary>
-        [Required(ErrorMessage = "Phone number is required.")]
+        [Required]
+        [RegularExpression(ValidationMessages.PhoneRegexPattern, ErrorMessage = ValidationMessages.InvalidPhoneFormat)]
         public string PhoneNumber { get; set; }
 
     }

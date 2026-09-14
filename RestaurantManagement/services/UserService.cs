@@ -1,10 +1,11 @@
-﻿using RestaurantManagement.Common;
+﻿using RestaurantManagement.Constants;
 using RestaurantManagement.Models.Dto;
 using RestaurantManagement.Models.Entity;
 using RestaurantManagement.Models.Enum;
 using RestaurantManagement.repository;
 using RestaurantManagement.services;
 using RestaurantManagement.Services.Interface;
+using System.Threading.Tasks;
 
 namespace RestaurantManagement.Services
 {
@@ -14,14 +15,14 @@ namespace RestaurantManagement.Services
 	public class UserService : IUserService
 	{
 		private readonly IUserRepository _userrepository;
-        private readonly IPasswordHasher _passwordHasher;
+        private readonly IPasswordService _passwordHasher;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="UserService"/> class.
 		/// </summary>
 		/// <param name="userrepository">The repository used to store and validate users.</param>
 		/// <param name="passwordHasher">The service used to hash passwords.</param>
-		public UserService(IUserRepository userrepository, IPasswordHasher passwordHasher) {
+		public UserService(IUserRepository userrepository, IPasswordService passwordHasher) {
 			_userrepository = userrepository;
 			_passwordHasher = passwordHasher;
 		}
@@ -31,9 +32,9 @@ namespace RestaurantManagement.Services
 		/// </summary>
 		/// <param name="adduser">The details of the user to register.</param>
 		/// <returns>A validation message describing the registration result.</returns>
-		public string Adduser(AddUserRequest adduser)
+		public async Task<string> AdduserAsync(AddUserRequest adduser)
 		{
-			if (!_userrepository.EmailExists(adduser.Email) && !_userrepository.PhoneNumberExists(adduser.PhoneNumber))
+			if (!await _userrepository.EmailExistsAsync(adduser.Email) && !await _userrepository.PhoneNumberExistsAsync(adduser.PhoneNumber))
 			{
 					var userentity = new User()
 					{
@@ -44,7 +45,7 @@ namespace RestaurantManagement.Services
 						PhoneNumber = adduser.PhoneNumber,
 						Role = UserRole.Customer
 					};
-					var res = _userrepository.AddUser(userentity);
+					await _userrepository.AddUserAsync(userentity);
 					return ValidationMessages.succes;
 				
 				

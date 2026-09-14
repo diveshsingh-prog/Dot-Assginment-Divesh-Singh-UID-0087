@@ -1,26 +1,40 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Web.Http.ExceptionHandling;
 using System.Web.Http.Results;
 
-namespace RestaurantManagement
+namespace RestaurantManagement.Handlers
 {
     /// <summary>
-    /// Handles unhandled Web API exceptions.
+    /// Centralized exception handler that intercepts unhandled exceptions 
+    /// across the application to format clean API error responses.
     /// </summary>
     public class GlobalExceptionHandler : ExceptionHandler
     {
-        /// <summary>
-        /// Returns a generic internal server error response.
-        /// </summary>
-        /// <param name="context">The exception handling context.</param>
         public override void Handle(ExceptionHandlerContext context)
         {
-            var response = context.Request.CreateResponse(
+            var exception = context.Exception;
+
+            // 1. Identify specific custom domain business logic exceptions
+            if (exception is InvalidOperationException)
+            {
+                var badRequestResponse = context.Request.CreateResponse(
+                    HttpStatusCode.BadRequest,
+                    new { Message = exception.Message }
+                );
+                context.Result = new ResponseMessageResult(badRequestResponse);
+                return;
+            }
+
+            // 2. Fallback for all unexpected database or system crashes (500 Internal Server Error)
+            var genericResponse = context.Request.CreateResponse(
                 HttpStatusCode.InternalServerError,
                 new { Message = "An unexpected error occurred on the server. Please try again later." }
             );
-            context.Result = new ResponseMessageResult(response);
+            context.Result = new ResponseMessageResult(genericResponse);
         }
     }
 }

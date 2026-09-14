@@ -1,11 +1,11 @@
 ﻿using Moq;
+using RestaurantManagement.Constants;
 using RestaurantManagement.Controllers;
 using RestaurantManagement.Models.Dto;
 using RestaurantManagement.Models.Entity;
 using RestaurantManagement.repository;
 using RestaurantManagement.Services;
 using RestaurantManagement.Services.Interface;
-using RestaurantManagement.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,13 +21,13 @@ namespace RestaurantManagement.tests.Services
     public class UserServiceTest
     {
         private Mock<IUserRepository> _mockrepo;
-        private Mock<IPasswordHasher> _mockpass;
+        private Mock<IPasswordService> _mockpass;
         private UserService _userser;
         [TestInitialize]
         public void setup()
         {
             _mockrepo = new Mock<IUserRepository>();
-            _mockpass = new Mock<IPasswordHasher>();
+            _mockpass = new Mock<IPasswordService>();
             _userser = new UserService(_mockrepo.Object,_mockpass.Object);
            
         }
@@ -36,7 +36,7 @@ namespace RestaurantManagement.tests.Services
         /// Verifies that a user with unique contact details is added successfully.
         /// </summary>
         [TestMethod]
-        public void ValidDto()
+        public async Task ValidDto()
         {
             //Arrange
             var testuser = new AddUserRequest()
@@ -47,11 +47,11 @@ namespace RestaurantManagement.tests.Services
                 PhoneNumber = "768099",
                 BirthDate = DateTime.Parse("2000-01-01 00:00:00")
             };
-            _mockrepo.Setup(e => e.EmailExists(testuser.Email)).Returns(false);
-            _mockrepo.Setup(e => e.PhoneNumberExists(testuser.PhoneNumber)).Returns(false);
-            _mockrepo.Setup(e => e.AddUser(It.IsAny<User>())).Returns(1);
+            _mockrepo.Setup(e => e.EmailExistsAsync(testuser.Email)).ReturnsAsync(false);
+            _mockrepo.Setup(e => e.PhoneNumberExistsAsync(testuser.PhoneNumber)).ReturnsAsync(false);
+            _mockrepo.Setup(e => e.AddUserAsync(It.IsAny<User>())).ReturnsAsync(1);
             //ACT
-            var res=_userser.Adduser(testuser);
+            var res = await _userser.AdduserAsync(testuser);
             //Asset
             Assert.AreEqual(ValidationMessages.succes, res);
             //Assert.Fail(res);
@@ -62,7 +62,7 @@ namespace RestaurantManagement.tests.Services
         /// Verifies that adding a user with an existing email is rejected.
         /// </summary>
         [TestMethod]
-        public void DuplicateEmail()
+        public async Task DuplicateEmail()
         {
             //Arrange
             var testuser = new AddUserRequest()
@@ -72,11 +72,11 @@ namespace RestaurantManagement.tests.Services
                 PhoneNumber = "768099",
                 BirthDate = DateTime.Parse("2000-01-01 00:00:00")
             };
-            _mockrepo.Setup(e => e.EmailExists(testuser.Email)).Returns(true);
-            _mockrepo.Setup(e => e.PhoneNumberExists(testuser.PhoneNumber)).Returns(false);
-            _mockrepo.Setup(e => e.AddUser(It.IsAny<User>())).Returns(1);
+            _mockrepo.Setup(e => e.EmailExistsAsync(testuser.Email)).ReturnsAsync(true);
+            _mockrepo.Setup(e => e.PhoneNumberExistsAsync(testuser.PhoneNumber)).ReturnsAsync(false);
+            _mockrepo.Setup(e => e.AddUserAsync(It.IsAny<User>())).ReturnsAsync(1);
             //ACT
-            var res = _userser.Adduser(testuser);
+            var res = await _userser.AdduserAsync(testuser);
             //Asset
             Assert.AreEqual("Same email and phone number", res);
             //Assert.Fail(res);

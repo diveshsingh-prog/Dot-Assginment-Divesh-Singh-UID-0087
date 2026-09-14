@@ -1,14 +1,16 @@
 ﻿using RestaurantManagement.Models.Dto;
 using System.Web.Http;
 using RestaurantManagement.services;
-using RestaurantManagement.Common;
+using System.Threading.Tasks;
+using RestaurantManagement.Constants;
+using RestaurantManagement.Services;
 
 namespace RestaurantManagement.Controllers
 {
     /// <summary>
     /// Provides authentication-related API endpoints.
     /// </summary>
-    [RoutePrefix("api")]
+    [RoutePrefix("api/auth")]
     public class AuthController : ApiController
     {
         private readonly IUserService _userservice;
@@ -16,10 +18,10 @@ namespace RestaurantManagement.Controllers
         /// <summary>
         /// Initializes a new instance of the <see cref="AuthController"/> class.
         /// </summary>
-        /// <param name="userser">The user service used to manage users.</param>
-        public AuthController(IUserService userser)
+        /// <param name="userservice">The user service used to manage users.</param>
+        public AuthController(IUserService userserice)
         {
-            _userservice = userser;
+            _userservice = userserice;
         }
 
         /// <summary>
@@ -29,14 +31,10 @@ namespace RestaurantManagement.Controllers
         /// <returns>The result of the registration request.</returns>
         [HttpPost]
         [Route("signup")]
-        public IHttpActionResult Signup(AddUserRequest adduser)
+        public async Task<IHttpActionResult> Signup(AddUserRequest adduser)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState); 
-            }
             //System.Diagnostics.Debug.WriteLine(adduser);
-            var res = _userservice.Adduser(adduser);
+            var res = await _userservice.AdduserAsync(adduser);
                 if (res.Equals(ValidationMessages.succes))
                 {
                     return Created(ValidationMessages.succes,adduser);

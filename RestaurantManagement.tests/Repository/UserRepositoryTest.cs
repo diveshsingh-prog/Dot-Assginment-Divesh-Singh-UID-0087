@@ -41,7 +41,7 @@ namespace RestaurantManagement.tests.Repository
 
         /// <summary>Verifies that an existing email is detected.</summary>
         [TestMethod]
-        public void CheckEmailIsPresent()
+        public async Task CheckEmailIsPresent()
         {
             var testUser = new User
             {
@@ -55,14 +55,14 @@ namespace RestaurantManagement.tests.Repository
             };
 
             _context.Users.Add(testUser);
-            _context.SaveChanges();
-            var result = _userrepo.EmailExists("divesh@gmail.com");
+            await _context.SaveChangesAsync();
+            var result = await _userrepo.EmailExistsAsync("divesh@gmail.com");
             Assert.IsTrue(result);
         }
 
         /// <summary>Verifies that an existing phone number is detected.</summary>
         [TestMethod]
-        public void CheckPhoneNumberIsPresent()
+        public async Task CheckPhoneNumberIsPresent()
         {
             var testUser = new User
             {
@@ -76,14 +76,14 @@ namespace RestaurantManagement.tests.Repository
             };
 
             _context.Users.Add(testUser);
-            _context.SaveChanges();
-            var result = _userrepo.PhoneNumberExists("0309896");
+            await _context.SaveChangesAsync();
+            var result = await _userrepo.PhoneNumberExistsAsync("0309896");
             Assert.IsTrue(result);
         }
 
         /// <summary>Verifies that an unknown phone number is not detected.</summary>
         [TestMethod]
-        public void CheckPhoneNumberIsNotPresent()
+        public async Task CheckPhoneNumberIsNotPresent()
         {
             var testUser = new User
             {
@@ -97,14 +97,14 @@ namespace RestaurantManagement.tests.Repository
             };
 
             _context.Users.Add(testUser);
-            _context.SaveChanges();
-            var result = _userrepo.PhoneNumberExists("030996");
+            await _context.SaveChangesAsync();
+            var result = await _userrepo.PhoneNumberExistsAsync("030996");
             Assert.IsFalse(result);
         }
 
         /// <summary>Verifies that an unknown value is not reported as an existing phone number.</summary>
         [TestMethod]
-        public void CheckEmailsNotPresent()
+        public async Task CheckEmailsNotPresent()
         {
             var testUser = new User
             {
@@ -118,14 +118,14 @@ namespace RestaurantManagement.tests.Repository
             };
 
             _context.Users.Add(testUser);
-            _context.SaveChanges();
-            var result = _userrepo.PhoneNumberExists("new@example.com");
+            await _context.SaveChangesAsync();
+            var result = await _userrepo.PhoneNumberExistsAsync("new@example.com");
             Assert.IsFalse(result);
         }
 
         /// <summary>Verifies that a user can be added and retrieved by email.</summary>
         [TestMethod]
-        public void Adduser()
+        public async Task Adduser()
         {
             var testUser = new User
             {
@@ -137,8 +137,8 @@ namespace RestaurantManagement.tests.Repository
                 Balance = 1000,
                 Role = UserRole.Customer
             };
-            _userrepo.AddUser(testUser);
-            var result = _userrepo.GetUser("divesh@gmail.com");
+            await _userrepo.AddUserAsync(testUser);
+            var result = await _userrepo.GetUserAsync("divesh@gmail.com");
             Assert.AreEqual(testUser, result);
         }
 

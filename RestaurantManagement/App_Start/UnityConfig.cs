@@ -42,12 +42,6 @@ namespace RestaurantManagement
         /// </remarks>
         public static void RegisterTypes(IUnityContainer container)
         {
-            // NOTE: To load from web.config uncomment the line below.
-            // Make sure to add a Unity.Configuration to the using statements.
-            // container.LoadConfiguration();
-
-            // TODO: Register your type's mappings here.
-            // container.RegisterType<IProductRepository, ProductRepository>();
             container.RegisterType<ApplicationDbContext>(new HierarchicalLifetimeManager());
 
             // 2. Register the Repository Layer
@@ -56,7 +50,7 @@ namespace RestaurantManagement
             // 3. Register the Service Layer
             container.RegisterType<IUserService, UserService>();
             // 4. Register your Password Hasher
-            container.RegisterType<IPasswordHasher, BcryptPasswordHasher>();
+            container.RegisterType<IPasswordService, PasswordService>();
         }
     }
 }

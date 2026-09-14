@@ -3,7 +3,7 @@
     /// <summary>
     /// Provides password hashing and verification operations.
     /// </summary>
-    public interface IPasswordHasher
+    public interface IPasswordService
     {
         /// <summary>
         /// Hashes a password.

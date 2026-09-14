@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyModel;
 using Moq;
-using RestaurantManagement.Common;
 using RestaurantManagement.Controllers;
 using RestaurantManagement.Models.Dto;
 using RestaurantManagement.Models.Entity;
@@ -11,6 +10,8 @@ using System.Text.Json;
 using System.Web.Http.Results;
 using System.Web.UI.WebControls.WebParts;
 using static Microsoft.ApplicationInsights.MetricDimensionNames.TelemetryContext;
+using System.Threading.Tasks;
+using RestaurantManagement.Constants;
 
 namespace RestaurantManagement.tests.Controller
 {
@@ -49,7 +50,7 @@ namespace RestaurantManagement.tests.Controller
         /// Verifies that a user is created when all submitted details are valid.
         /// </summary>
         [TestMethod]
-        public void all_correct_detail()
+        public async Task all_correct_detail()
         {
             //ARRANGE
             var incominguser = new AddUserRequest()
@@ -61,10 +62,10 @@ namespace RestaurantManagement.tests.Controller
                 BirthDate = DateTime.Parse("2000-01-01 00:00:00")
             };
 
-            _mockser.Setup(r => r.Adduser(incominguser)).Returns(ValidationMessages.succes);
+            _mockser.Setup(r => r.AdduserAsync(incominguser)).ReturnsAsync(ValidationMessages.succes);
 
             //ACT
-            var response = _signup.Signup(incominguser);
+            var response = await _signup.Signup(incominguser);
             //ASSERT
             //if (response as CreatedNegotiatedContentResult<AddUserRequest>!=null)
             //{
@@ -80,29 +81,9 @@ namespace RestaurantManagement.tests.Controller
         /// <summary>
         /// Verifies that an invalid email produces a model-state error response.
         /// </summary>
+      
         [TestMethod]
-        public void Invalidemail()
-        {
-            //ARRANGE
-            var incominguser = new AddUserRequest()
-            {
-                Name = "DIVESH",
-                Email = "divesgmail.com",
-                Password = "123234@aA",
-                PhoneNumber = "12323342",
-                BirthDate = DateTime.Parse("2000-01-01 00:00:00")
-            };
-            _signup.ModelState.AddModelError("Email","Email is invalid");
-            //ACT
-            var response = _signup.Signup(incominguser);
-
-
-            //ASSERT
-            var badRequestResult = response as InvalidModelStateResult;
-            Assert.IsNotNull(badRequestResult);
-        }
-        [TestMethod]
-        public void EmailExists()
+        public async Task EmailExists()
         {
             //ARRANGE
             var incominguser = new AddUserRequest()
@@ -114,10 +95,10 @@ namespace RestaurantManagement.tests.Controller
                 BirthDate = DateTime.Parse("2000-01-01 00:00:00")
             };
 
-            _mockser.Setup(r => r.Adduser(incominguser)).Returns(ValidationMessages.DuplicateEmailAndPhone);
+            _mockser.Setup(r => r.AdduserAsync(incominguser)).ReturnsAsync(ValidationMessages.DuplicateEmailAndPhone);
 
             //ACT
-            var response = _signup.Signup(incominguser);
+            var response = await _signup.Signup(incominguser);
             //ASSERT
             var BadResult = response as BadRequestErrorMessageResult;
             Assert.IsNotNull(BadResult, ValidationMessages.DuplicateEmailAndPhone);

@@ -1,6 +1,8 @@
 ﻿using RestaurantManagement.Data;
 using RestaurantManagement.Models.Entity;
 using System.Linq;
+using System.Data.Entity;
+using System.Threading.Tasks;
 using RestaurantManagement.repository;
 
 namespace RestaurantManagement.Repository
@@ -26,9 +28,9 @@ namespace RestaurantManagement.Repository
         /// </summary>
         /// <param name="email">The email to search for.</param>
         /// <returns>The matching user if found; otherwise, null.</returns>
-        public User GetUser(string email)
+        public async Task<User> GetUserAsync(string email)
         {
-            return _db.Users.FirstOrDefault(e => e.Email == email);
+            return await _db.Users.FirstOrDefaultAsync(e => e.Email == email);
         }
 
         /// <summary>
@@ -36,9 +38,9 @@ namespace RestaurantManagement.Repository
         /// </summary>
         /// <param name="email">The email to validate.</param>
         /// <returns>True if the email exists; otherwise, false.</returns>
-        public bool EmailExists(string email)
+        public async Task<bool> EmailExistsAsync(string email)
         {
-            return _db.Users.Any(e => e.Email == email);
+            return await _db.Users.AnyAsync(e => e.Email == email);
         }
 
         /// <summary>
@@ -46,9 +48,9 @@ namespace RestaurantManagement.Repository
         /// </summary>
         /// <param name="phoneNumber">The phone number to validate.</param>
         /// <returns>True if the phone number exists; otherwise, false.</returns>
-        public bool PhoneNumberExists(string phoneNumber)
+        public async Task<bool> PhoneNumberExistsAsync(string phoneNumber)
         {
-            return _db.Users.Any(e => e.PhoneNumber == phoneNumber);
+            return await _db.Users.AnyAsync(e => e.PhoneNumber == phoneNumber);
         }
 
         /// <summary>
@@ -56,10 +58,10 @@ namespace RestaurantManagement.Repository
         /// </summary>
         /// <param name="userentity">The user entity to add.</param>
         /// <returns>The ID of the newly added user.</returns>
-        public int AddUser(User userentity)
+        public async Task<int> AddUserAsync(User userentity)
         {
             _db.Users.Add(userentity);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
             return userentity.userId;
         }
     }

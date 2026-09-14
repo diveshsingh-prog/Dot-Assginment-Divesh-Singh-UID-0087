@@ -1,4 +1,5 @@
 ﻿using RestaurantManagement.Models.Entity;
+using System.Threading.Tasks;
 
 namespace RestaurantManagement.repository
 {
@@ -12,27 +13,27 @@ namespace RestaurantManagement.repository
         /// </summary>
         /// <param name="email">The email address to check.</param>
         /// <returns><see langword="true"/> if the email exists; otherwise, <see langword="false"/>.</returns>
-        bool EmailExists(string email);
+        Task<bool> EmailExistsAsync(string email);
 
         /// <summary>
         /// Determines whether a phone number is already registered.
         /// </summary>
         /// <param name="phoneNumber">The phone number to check.</param>
         /// <returns><see langword="true"/> if the phone number exists; otherwise, <see langword="false"/>.</returns>
-        bool PhoneNumberExists(string phoneNumber);
+        Task<bool> PhoneNumberExistsAsync(string phoneNumber);
 
         /// <summary>
         /// Adds a user to the data store.
         /// </summary>
         /// <param name="userentity">The user to add.</param>
         /// <returns>The identifier of the added user.</returns>
-        int AddUser(User userentity);
+        Task<int> AddUserAsync(User userentity);
 
         /// <summary>
         /// Retrieves a user by email address.
         /// </summary>
         /// <param name="email">The email address of the user.</param>
         /// <returns>The matching user.</returns>
-        User GetUser(string email);
+        Task<User> GetUserAsync(string email);
     }
 }

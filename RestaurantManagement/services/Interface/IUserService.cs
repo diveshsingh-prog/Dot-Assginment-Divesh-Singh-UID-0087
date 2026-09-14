@@ -1,4 +1,5 @@
 ﻿using RestaurantManagement.Models.Dto;
+using System.Threading.Tasks;
 
 namespace RestaurantManagement.services
 {
@@ -12,6 +13,6 @@ namespace RestaurantManagement.services
         /// </summary>
         /// <param name="adduser">The user details to add.</param>
         /// <returns>A message describing the result of the operation.</returns>
-        string Adduser(AddUserRequest adduser);
+        Task<string> AdduserAsync(AddUserRequest adduser);
     }
 }

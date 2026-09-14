@@ -5,7 +5,7 @@ namespace RestaurantManagement.Services
     /// <summary>
     /// Provides password hashing and verification using BCrypt.
     /// </summary>
-    public class BcryptPasswordHasher : IPasswordHasher
+    public class PasswordService : IPasswordService
     {
         private const int WorkFactor = 12;
 
