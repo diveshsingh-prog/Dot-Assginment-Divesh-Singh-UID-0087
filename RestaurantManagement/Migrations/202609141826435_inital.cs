@@ -16,6 +16,7 @@
                         City = c.String(nullable: false, maxLength: 50),
                         State = c.String(nullable: false, maxLength: 50),
                         PinCode = c.String(nullable: false, maxLength: 30),
+                        Country = c.String(nullable: false),
                         AddressType = c.Int(nullable: false),
                         CreatedAt = c.DateTime(nullable: false),
                         UpdatedAt = c.DateTime(nullable: false),
@@ -28,7 +29,7 @@
                     {
                         ItemId = c.Int(nullable: false, identity: true),
                         RestaurantId = c.Int(nullable: false),
-                        DishName = c.String(nullable: false, maxLength: 50),
+                        DishName = c.String(nullable: false, maxLength: 255),
                         Price = c.Decimal(nullable: false, precision: 18, scale: 2),
                         AvailableQuantity = c.Int(nullable: false),
                         CreatedAt = c.DateTime(nullable: false),
@@ -43,7 +44,7 @@
                 c => new
                     {
                         RestaurantId = c.Int(nullable: false, identity: true),
-                        Name = c.String(nullable: false, maxLength: 50),
+                        Name = c.String(nullable: false, maxLength: 100),
                         AddressId = c.Int(nullable: false),
                         Email = c.String(nullable: false, maxLength: 100),
                         PhoneNumber = c.String(nullable: false, maxLength: 20),
@@ -58,6 +59,23 @@
                 .Index(t => t.PhoneNumber, unique: true);
             
             CreateTable(
+                "dbo.OrderItems",
+                c => new
+                    {
+                        OrderItemId = c.Int(nullable: false, identity: true),
+                        OrderId = c.Int(nullable: false),
+                        ItemId = c.Int(nullable: false),
+                        ItemName = c.String(nullable: false, maxLength: 255),
+                        Price = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        Quantity = c.Int(nullable: false),
+                        CreatedAt = c.DateTime(nullable: false),
+                        UpdatedAt = c.DateTime(nullable: false),
+                    })
+                .PrimaryKey(t => t.OrderItemId)
+                .ForeignKey("dbo.Orders", t => t.OrderId, cascadeDelete: true)
+                .Index(t => t.OrderId);
+            
+            CreateTable(
                 "dbo.Orders",
                 c => new
                     {
@@ -67,7 +85,7 @@
                         TotalAmount = c.Decimal(nullable: false, precision: 18, scale: 2),
                         Status = c.Int(nullable: false),
                         Address = c.String(nullable: false, maxLength: 255),
-                        OrderedDate = c.DateTime(nullable: false),
+                        CreatedAt = c.DateTime(nullable: false),
                         UpdatedAt = c.DateTime(nullable: false),
                     })
                 .PrimaryKey(t => t.OrderId)
@@ -89,30 +107,13 @@
                         PhoneNumber = c.String(nullable: false, maxLength: 20),
                         Balance = c.Decimal(nullable: false, precision: 18, scale: 2),
                         Role = c.Int(nullable: false),
+                        BalanceUpdatedAt = c.DateTimeOffset(nullable: false, precision: 7),
                         CreatedAt = c.DateTime(nullable: false),
                         UpdatedAt = c.DateTime(nullable: false),
-                        Balance_Updated_At = c.DateTime(nullable: false),
                     })
                 .PrimaryKey(t => t.userId)
                 .Index(t => t.Email, unique: true)
                 .Index(t => t.PhoneNumber, unique: true);
-            
-            CreateTable(
-                "dbo.OrderItems",
-                c => new
-                    {
-                        OrderItemId = c.Int(nullable: false, identity: true),
-                        OrderId = c.Int(nullable: false),
-                        ItemId = c.Int(nullable: false),
-                        ItemName = c.String(nullable: false, maxLength: 50),
-                        Price = c.Decimal(nullable: false, precision: 18, scale: 2),
-                        Quantity = c.Int(nullable: false),
-                        CreatedAt = c.DateTime(nullable: false),
-                        UpdatedAt = c.DateTime(nullable: false),
-                    })
-                .PrimaryKey(t => t.OrderItemId)
-                .ForeignKey("dbo.Orders", t => t.OrderId, cascadeDelete: true)
-                .Index(t => t.OrderId);
             
             CreateTable(
                 "dbo.RestaurantOwners",
@@ -129,18 +130,27 @@
                 .ForeignKey("dbo.Users", t => t.UserId, cascadeDelete: true)
                 .Index(t => t.RestaurantId)
                 .Index(t => t.UserId);
-            Sql("ALTER TABLE dbo.MenuItems ADD CONSTRAINT CK_mi_Price_NotNegative CHECK (Price >= 0);");
-            Sql("ALTER TABLE dbo.OrderItems ADD CONSTRAINT CK_oi_Price_NotNegative CHECK (Price >= 0);");
-            Sql("ALTER TABLE dbo.MenuItems ADD CONSTRAINT CK_AvailableQuantity_NotNegative CHECK (AvailableQuantity >= 0);");
-            Sql("ALTER TABLE dbo.OrderItems ADD CONSTRAINT CK_Quantity_NotNegative CHECK (Quantity >= 0);");
-            Sql("ALTER TABLE dbo.Orders ADD CONSTRAINT CK_TotalAmount_NotNegative CHECK (TotalAmount >= 0);");
-            Sql("ALTER TABLE dbo.Users ADD CONSTRAINT CK_Balance_NotNegative CHECK (Balance >= 0);");
-
-
+            
+            CreateTable(
+                "dbo.UserAddresses",
+                c => new
+                    {
+                        UserAddressId = c.Int(nullable: false, identity: true),
+                        UserId = c.Int(nullable: false),
+                        AddressId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.UserAddressId)
+                .ForeignKey("dbo.Addresses", t => t.AddressId, cascadeDelete: true)
+                .ForeignKey("dbo.Users", t => t.UserId, cascadeDelete: true)
+                .Index(t => t.UserId)
+                .Index(t => t.AddressId);
+            
         }
-
+        
         public override void Down()
         {
+            DropForeignKey("dbo.UserAddresses", "UserId", "dbo.Users");
+            DropForeignKey("dbo.UserAddresses", "AddressId", "dbo.Addresses");
             DropForeignKey("dbo.RestaurantOwners", "UserId", "dbo.Users");
             DropForeignKey("dbo.RestaurantOwners", "RestaurantId", "dbo.Restaurants");
             DropForeignKey("dbo.OrderItems", "OrderId", "dbo.Orders");
@@ -148,31 +158,27 @@
             DropForeignKey("dbo.Orders", "RestaurantId", "dbo.Restaurants");
             DropForeignKey("dbo.MenuItems", "RestaurantId", "dbo.Restaurants");
             DropForeignKey("dbo.Restaurants", "AddressId", "dbo.Addresses");
+            DropIndex("dbo.UserAddresses", new[] { "AddressId" });
+            DropIndex("dbo.UserAddresses", new[] { "UserId" });
             DropIndex("dbo.RestaurantOwners", new[] { "UserId" });
             DropIndex("dbo.RestaurantOwners", new[] { "RestaurantId" });
-            DropIndex("dbo.OrderItems", new[] { "OrderId" });
             DropIndex("dbo.Users", new[] { "PhoneNumber" });
             DropIndex("dbo.Users", new[] { "Email" });
             DropIndex("dbo.Orders", new[] { "RestaurantId" });
             DropIndex("dbo.Orders", new[] { "UserId" });
+            DropIndex("dbo.OrderItems", new[] { "OrderId" });
             DropIndex("dbo.Restaurants", new[] { "PhoneNumber" });
             DropIndex("dbo.Restaurants", new[] { "Email" });
             DropIndex("dbo.Restaurants", new[] { "AddressId" });
             DropIndex("dbo.MenuItems", new[] { "RestaurantId" });
+            DropTable("dbo.UserAddresses");
             DropTable("dbo.RestaurantOwners");
-            DropTable("dbo.OrderItems");
             DropTable("dbo.Users");
             DropTable("dbo.Orders");
+            DropTable("dbo.OrderItems");
             DropTable("dbo.Restaurants");
             DropTable("dbo.MenuItems");
             DropTable("dbo.Addresses");
-            Sql("ALTER TABLE dbo.MenuItems DROP CONSTRAINT CK_mi_Price_NotNegative;");
-            Sql("ALTER TABLE dbo.OrderItems DROP CONSTRAINT CK_oi_Price_NotNegative;");
-            Sql("ALTER TABLE dbo.MenuItems DROP CONSTRAINT CK_AvailableQuantity_NotNegative;");
-            Sql("ALTER TABLE dbo.OrderItems DROP CONSTRAINT CK_Quantity_NotNegative;");
-            Sql("ALTER TABLE dbo.Orders DROP CONSTRAINT CK_TotalAmount_NotNegative;");
-            Sql("ALTER TABLE dbo.Users DROP CONSTRAINT CK_Balance_NotNegative;");
         }
     }
 }
-

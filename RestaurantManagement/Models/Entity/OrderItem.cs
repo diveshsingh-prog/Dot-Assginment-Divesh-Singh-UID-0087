@@ -11,19 +11,12 @@ namespace RestaurantManagement.Models.Entity
     /// </summary>
     public class OrderItem:BaseEntity
     {
-        /// <summary>Gets or sets the unique identifier of the order item.</summary>
         [Key] public int OrderItemId { get; set; }
-        /// <summary>Gets or sets the identifier of the associated order.</summary>
         [Required] public int OrderId { get; set;}
-        /// <summary>Gets or sets the associated order.</summary>
         [ForeignKey("OrderId")] public virtual Order Order { get; set; }
-        /// <summary>Gets or sets the identifier of the ordered menu item.</summary>
         [Required] public int ItemId { get; set; } 
-        /// <summary>Gets or sets the name of the ordered menu item.</summary>
-        [Required] [StringLength(EntityConstants.maxdishnamelength,MinimumLength =EntityConstants.mindishnamelength)] public string ItemName { get; set; }
-        /// <summary>Gets or sets the price of one unit of the item.</summary>
-        [Required] [Range(1.0,Double.MaxValue)]public decimal Price { get; set; }
-        /// <summary>Gets or sets the quantity ordered.</summary>
+        [Required] [StringLength(EntityConstants.MaxDishNameLength)] public string ItemName { get; set; }
+        [Required][Range(typeof(decimal), "1.0", "79228162514264337593543950335")]public decimal Price { get; set; }
         [Required] [Range(1,int.MaxValue)]public int Quantity { get; set; }
        
     }

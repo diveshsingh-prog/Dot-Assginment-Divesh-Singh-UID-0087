@@ -13,24 +13,24 @@ namespace RestaurantManagement.Models.Entity
         /// <summary>Gets or sets the unique identifier of the user.</summary>
         [Key] public int userId { get; set; }
         /// <summary>Gets or sets the user's name.</summary>
-        [Required] [StringLength(EntityConstants.maxnamelength)]public string Name { get; set; }
+        [Required] [StringLength(EntityConstants.MaxNameLength)]public string Name { get; set; }
         /// <summary>Gets or sets the user's password.</summary>
         [Required] public string Password { get; set; }
         /// <summary>Gets or sets the user's unique email address.</summary>
-        [Required][StringLength(EntityConstants.maxemaillength)][Index(IsUnique = true)] public string Email { get; set; }
+        [Required][StringLength(EntityConstants.MaxEmailLength)][Index(IsUnique = true)] public string Email { get; set; }
         /// <summary>Gets or sets the user's birth date.</summary>
         [Required] [Column(TypeName = "date")] public DateTime BirthDate { get; set; }
         /// <summary>Gets or sets a value indicating whether the user is active.</summary>
         public bool IsActive { get; set; } = true;
         /// <summary>Gets or sets the user's unique phone number.</summary>
-        [Required][StringLength(EntityConstants.maxphonenumberlength)][Index(IsUnique = true)] public string PhoneNumber { get; set; }
+        [Required][StringLength(EntityConstants.MaxPhoneNumberLength)][Index(IsUnique = true)] public string PhoneNumber { get; set; }
         /// <summary>Gets or sets the user's account balance.</summary>
-        [Required][Range(0.0, Double.MaxValue)] public decimal Balance { get; set; } = 1000;
+        [Required][Range(typeof(decimal), "0.0", "79228162514264337593543950335")] public decimal Balance { get; set; } = 1000;
 
         /// <summary>Gets or sets the user's role.</summary>
         [Required] public UserRole Role { get; set; }
         /// <summary>Gets or sets the date and time when the balance was last updated.</summary>
-        public DateTimeOffset Balance_Updated_At { get; set; } = DateTimeOffset.UtcNow;
+        public DateTimeOffset BalanceUpdatedAt { get; set; } = DateTimeOffset.UtcNow;
 
 
 

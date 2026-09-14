@@ -21,3 +21,6 @@ appsettings.Development.json
 # Test data and system logs
 [Tt]est[Rr]esult*/
 *.log
+# Exclude NuGet Packages folder
+packages/
+

@@ -141,17 +141,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202609101926008_inital.cs" />
-    <Compile Include="Migrations\202609101926008_inital.Designer.cs">
-      <DependentUpon>202609101926008_inital.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202609120726201_update.cs" />
-    <Compile Include="Migrations\202609120726201_update.Designer.cs">
-      <DependentUpon>202609120726201_update.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202609131654506_inital2.cs" />
-    <Compile Include="Migrations\202609131654506_inital2.Designer.cs">
-      <DependentUpon>202609131654506_inital2.cs</DependentUpon>
+    <Compile Include="Migrations\202609141826435_inital.cs" />
+    <Compile Include="Migrations\202609141826435_inital.Designer.cs">
+      <DependentUpon>202609141826435_inital.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Entity\Address.cs" />
@@ -195,14 +187,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202609101926008_inital.resx">
-      <DependentUpon>202609101926008_inital.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202609120726201_update.resx">
-      <DependentUpon>202609120726201_update.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202609131654506_inital2.resx">
-      <DependentUpon>202609131654506_inital2.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202609141826435_inital.resx">
+      <DependentUpon>202609141826435_inital.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
