@@ -36,7 +36,7 @@ namespace RestaurantManagement.Controllers
             //System.Diagnostics.Debug.WriteLine(adduser);
             await _userservice.AdduserAsync(adduser);
             return Ok(ValidationMessages.succes);
-             }
         }
     }
+}
 
