@@ -3,6 +3,7 @@ using RestaurantManagement.repository;
 using RestaurantManagement.Repository;
 using RestaurantManagement.services;
 using RestaurantManagement.Services;
+using RestaurantManagement.Services.Interface;
 using System;
 using Unity;
 using Unity.Lifetime;
@@ -47,7 +48,6 @@ namespace RestaurantManagement
 
             // TODO: Register your type's mappings here.
             // container.RegisterType<IProductRepository, ProductRepository>();
-            // 1. Register DbContext (HierarchicalLifetimeManager handles per-request lifecycle)
             container.RegisterType<ApplicationDbContext>(new HierarchicalLifetimeManager());
 
             // 2. Register the Repository Layer
@@ -55,6 +55,8 @@ namespace RestaurantManagement
 
             // 3. Register the Service Layer
             container.RegisterType<IUserService, UserService>();
+            // 4. Register your Password Hasher
+            container.RegisterType<IPasswordHasher, BcryptPasswordHasher>();
         }
     }
 }

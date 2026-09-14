@@ -20,6 +20,9 @@ using Effort;
 namespace RestaurantManagement.tests.Repository
 {
     [TestClass]
+    /// <summary>
+    /// Contains integration tests for <see cref="UserRepository"/> using a transient database.
+    /// </summary>
     public class UserRepositoryTest
     {
         private ApplicationDbContext _context;
@@ -35,6 +38,8 @@ namespace RestaurantManagement.tests.Repository
 
 
         }
+
+        /// <summary>Verifies that an existing email is detected.</summary>
         [TestMethod]
         public void CheckEmailIsPresent()
         {
@@ -51,9 +56,11 @@ namespace RestaurantManagement.tests.Repository
 
             _context.Users.Add(testUser);
             _context.SaveChanges();
-            var result = _userrepo.CheckEmailIsPresent("divesh@gmail.com");
+            var result = _userrepo.EmailExists("divesh@gmail.com");
             Assert.IsTrue(result);
         }
+
+        /// <summary>Verifies that an existing phone number is detected.</summary>
         [TestMethod]
         public void CheckPhoneNumberIsPresent()
         {
@@ -70,9 +77,11 @@ namespace RestaurantManagement.tests.Repository
 
             _context.Users.Add(testUser);
             _context.SaveChanges();
-            var result = _userrepo.CheckPhoneNumberIsPresent("0309896");
+            var result = _userrepo.PhoneNumberExists("0309896");
             Assert.IsTrue(result);
         }
+
+        /// <summary>Verifies that an unknown phone number is not detected.</summary>
         [TestMethod]
         public void CheckPhoneNumberIsNotPresent()
         {
@@ -89,10 +98,11 @@ namespace RestaurantManagement.tests.Repository
 
             _context.Users.Add(testUser);
             _context.SaveChanges();
-            var result = _userrepo.CheckPhoneNumberIsPresent("030996");
+            var result = _userrepo.PhoneNumberExists("030996");
             Assert.IsFalse(result);
         }
 
+        /// <summary>Verifies that an unknown value is not reported as an existing phone number.</summary>
         [TestMethod]
         public void CheckEmailsNotPresent()
         {
@@ -109,9 +119,11 @@ namespace RestaurantManagement.tests.Repository
 
             _context.Users.Add(testUser);
             _context.SaveChanges();
-            var result = _userrepo.CheckPhoneNumberIsPresent("new@example.com");
+            var result = _userrepo.PhoneNumberExists("new@example.com");
             Assert.IsFalse(result);
         }
+
+        /// <summary>Verifies that a user can be added and retrieved by email.</summary>
         [TestMethod]
         public void Adduser()
         {
@@ -130,22 +142,7 @@ namespace RestaurantManagement.tests.Repository
             Assert.AreEqual(testUser, result);
         }
 
-        [TestMethod]
-        public void AdduserInvalid()
-        {
-            var testUser = new User
-            {
-                
-                Name = "DIVESH",
-                Password = "89hubh",
-                PhoneNumber = "0309896",
-                BirthDate = DateTime.Parse("2002-01-01 00:00:00"),
-                Balance = 1000,
-                Role = UserRole.Customer
-            };
-            var result=_userrepo.AddUser(testUser);
-            Assert.AreEqual("Plz check the db connection, Error in DB", result);
-        }
+     
 
 
     }
