@@ -2,12 +2,10 @@ using RestaurantManagement.Data;
 using RestaurantManagement.repository;
 using RestaurantManagement.Repository;
 using RestaurantManagement.Repository.Interface;
-//using RestaurantManagement.services;
 using RestaurantManagement.Services;
 using RestaurantManagement.Services.Interface;
 using System;
 using Unity;
-using Unity.Injection;
 using Unity.Lifetime;
 
 namespace RestaurantManagement
@@ -36,27 +34,22 @@ namespace RestaurantManagement
         /// Registers the type mappings with the Unity container.
         /// </summary>
         /// <param name="container">The unity container to configure.</param>
-        /// <remarks>
-        /// There is no need to register concrete types such as controllers or
-        /// API controllers (unless you want to change the defaults), as Unity
-        /// allows resolving a concrete type even if it was not previously
-        /// registered.
-        /// </remarks>
         public static void RegisterTypes(IUnityContainer container)
         {
+            // 1. Register Data Context with HTTP Request Scope
             container.RegisterType<ApplicationDbContext>(new HierarchicalLifetimeManager());
 
-            // 2. Register the Repository Layer
-            container.RegisterType<IUserRepository, UserRepository>();
+            // 2. Register the Repository Layer with HTTP Request Scope
+            container.RegisterType<IUserRepository, UserRepository>(new HierarchicalLifetimeManager());
+            container.RegisterType<ITokenRepository, TokenRepository>(new HierarchicalLifetimeManager());
 
             // 3. Register the Service Layer
-            container.RegisterType<IUserService, UserService>();
-            // 4. Register your Password Hasher
-            container.RegisterType<IPasswordService, PasswordService>();
-            container.RegisterType<ITokenRepository, TokenRepository>();
-            container.RegisterType<ITokenService, TokenService>();
-            container.RegisterType<ITokenRepository, TokenRepository>();
-            container.RegisterType<IObtainJwtService, ObtainJwtService>();
+            container.RegisterType<IUserService, UserService>(new HierarchicalLifetimeManager());
+            container.RegisterType<ITokenService, TokenService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IObtainJwtService, ObtainJwtService>(new HierarchicalLifetimeManager());
+
+            // 4. Register Utilities
+            container.RegisterType<IPasswordService, PasswordService>(new HierarchicalLifetimeManager());
         }
     }
 }

@@ -1,12 +1,12 @@
 ﻿using Microsoft.IdentityModel.Tokens;
-using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Jwt;
 using Owin;
+using System;
 using System.Text;
-using System.Web.Configuration;
+using System.Web.Http;
 
-[assembly: OwinStartup(typeof(YourProject.Startup))]
+[assembly: Microsoft.Owin.OwinStartup(typeof(YourProject.Startup))]
 
 namespace YourProject
 {
@@ -14,21 +14,45 @@ namespace YourProject
     {
         public void Configuration(IAppBuilder app)
         {
-            // Configure your API to challenge requests using JWT Bearer authentication
+            HttpConfiguration config = GlobalConfiguration.Configuration;
+
+            string issuerAndAudience = "https://localhost:44384";
+            string securitySecret = "gfr6dedrftyfgyuhgyugyg7f56e4sr5dtfguygyugtf";
+
+            var secretBytes = Encoding.UTF8.GetBytes(securitySecret);
+            var symmetricKey = new SymmetricSecurityKey(secretBytes);
+            string base64Secret = Convert.ToBase64String(secretBytes);
+
             app.UseJwtBearerAuthentication(
                 new JwtBearerAuthenticationOptions
                 {
-                    AuthenticationMode =Microsoft.Owin.Security.AuthenticationMode.Active,
+                    AuthenticationMode = AuthenticationMode.Active,
+                    // This links it perfectly to the HostAuthenticationFilter("Bearer") in WebApiConfig!
+                    AuthenticationType = "Bearer",
+
+                    TokenHandler = new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler(),
+
+                    IssuerSecurityKeyProviders = new IIssuerSecurityKeyProvider[]
+                    {
+                new SymmetricKeyIssuerSecurityKeyProvider(issuerAndAudience, base64Secret)
+                    },
+
                     TokenValidationParameters = new TokenValidationParameters()
                     {
                         ValidateIssuer = true,
+                        ValidIssuer = issuerAndAudience,
+
                         ValidateAudience = true,
-                        ValidateLifetime = false, // Validates expiration dates on incoming JWT access tokens
-                        ValidIssuer = "http://localhost",
-                        ValidAudience = "http://localhost",
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("gfr6dedrftyfgyuhgyugyg7f56e4sr5dtfguygyugtf"))
+                        ValidAudience = issuerAndAudience,
+
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = symmetricKey,
+
+                        ValidateLifetime = true,
+                        ClockSkew = TimeSpan.Zero
                     }
                 });
         }
+
     }
 }

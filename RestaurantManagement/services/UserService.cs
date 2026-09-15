@@ -9,6 +9,8 @@ using RestaurantManagement.Repository;
 using RestaurantManagement.Repository.Interface;
 //using RestaurantManagement.services;
 using RestaurantManagement.Services.Interface;
+using System;
+using System.CodeDom;
 using System.Threading.Tasks;
 
 namespace RestaurantManagement.Services
@@ -81,5 +83,38 @@ public async Task<User> GetUserAsync(int id)
 	return await _userrepository.GetUserAsync(id);
 }
 
-  }
+        public async Task<User> GetUserIfActive(int id)
+        {
+            if (await _userrepository.IsActiveAsync(id))
+            {
+                return await _userrepository.GetUserAsync(id);
+            }
+            throw new ResourceException(ValidationMessages.NotFound);
+
+        }
+
+        public async Task UpdateAccount(User user, UpdateAccountDto updateaccount)
+        {
+			if (user.Email != updateaccount.Email && await _userrepository.EmailExistsOtherThanThisIdAsync(updateaccount.Email, user.UserId)) 
+            {
+                throw new ResourceException(ValidationMessages.DuplicateEmail);
+               
+            }
+
+            if (user.PhoneNumber != updateaccount.PhoneNumber && await _userrepository.PhoneNumberExistsOtherThanThisIdAsync(updateaccount.PhoneNumber,user.UserId))
+            {
+                throw new ResourceException(ValidationMessages.DuplicatePhone);
+                
+            }
+			
+				user.Name = updateaccount.Name;
+				user.Email = updateaccount.Email;
+				user.PhoneNumber = updateaccount.PhoneNumber;
+				user.BirthDate = updateaccount.BirthDate.Date;
+				user.UpdatedAt = DateTime.UtcNow;
+
+			await _userrepository.UpdateAccount(user);
+
+        }
+    }
 }

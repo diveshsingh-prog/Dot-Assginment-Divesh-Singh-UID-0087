@@ -20,6 +20,7 @@ namespace RestaurantManagement.Controllers
     /// <summary>
     /// Provides authentication-related API endpoints.
     /// </summary>
+    [AllowAnonymous]
     [RoutePrefix("api/auth")]
     public class AuthController : ApiController
     {
@@ -31,15 +32,11 @@ namespace RestaurantManagement.Controllers
         /// Initializes a new instance of the <see cref="AuthController"/> class.
         /// </summary>
         /// <param name="userservice">The user service used to manage users.</param>
-        public AuthController(IUserService userserice)
-        {
-            _userService = userserice;
-        }
-        /// <param name="userser">The user service used to manage users.</param>
-        //public AuthController(IUserService userser)
+        //public AuthController(IUserService userserice)
         //{
-        //    _userservice = userser;
+        //    _userService = userserice;
         //}
+
         public AuthController(IUserService userser, IObtainJwtService jwtclaim, ITokenService tokenService)
         {
             _userService = userser;
@@ -56,7 +53,6 @@ namespace RestaurantManagement.Controllers
         [Route("signup")]
         public async Task<IHttpActionResult> Signup(AddUserRequest adduser)
         {
-            //System.Diagnostics.Debug.WriteLine(adduser);
             await _userService.AdduserAsync(adduser);
             return Ok(ValidationMessages.succes);
         }
@@ -65,9 +61,7 @@ namespace RestaurantManagement.Controllers
         public async Task<IHttpActionResult> Login(UserCredential login)
         {
          
-            //System.Diagnostics.Debug.WriteLine(_userService == null);
             var user = await _userService.CheckUserAsync(login);
-            //System.Diagnostics.Debug.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(user, Newtonsoft.Json.Formatting.Indented));
 
             if (user != null)
             {

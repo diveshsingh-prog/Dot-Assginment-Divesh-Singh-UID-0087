@@ -12,5 +12,6 @@
         public const string InvalidPhoneFormat = "Invalid phone number format. It must contain only 10 digits.";
         public const string PhoneRegexPattern = @"^\d{10}$";
         public const string Revoked = "Invalid Token";
-    }
+        public const string NotFound = "Not Found";
+         }
 }
