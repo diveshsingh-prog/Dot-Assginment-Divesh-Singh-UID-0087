@@ -1,4 +1,4 @@
-﻿using RestaurantManagement.Exceptions;
+using RestaurantManagement.Exceptions;
 using System;
 using System.Net;
 using System.Net.Http;
