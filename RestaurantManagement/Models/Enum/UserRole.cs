@@ -5,19 +5,11 @@
     /// </summary>
     public enum UserRole
     {
-        /// <summary>
-        /// A restaurant customer.
-        /// </summary>
+        // A restaurant customer.
         Customer = 1,
-
-        /// <summary>
-        /// A system administrator.
-        /// </summary>
+        // A system administrator.
         Admin = 2,
-
-        /// <summary>
-        /// A restaurant owner.
-        /// </summary>
+        // A restaurant owner.
         Owner = 3
     }
 }

@@ -5,17 +5,17 @@
     /// </summary>
     public enum OrderStatus
     {
-        /// <summary>An order has been placed.</summary>
+        //An order has been placed.
         Placed = 1,
-        /// <summary>An order has been accepted.</summary>
+        //An order has been accepted.
         Accepted = 2,
-        /// <summary>An order has been rejected.</summary>
+        //An order has been rejected.
         Rejected = 3,
-        /// <summary>An order has been dispatched.</summary>
+        //An order has been dispatched.
         Dispatched = 4,
-        /// <summary>An order is out for delivery.</summary>
+        // <summary>An order is out for delivery.
         Delivery = 5,
-        /// <summary>An order has been cancelled.</summary>
+        // <summary>An order has been cancelled.
         Cancelled = 6
 
 

@@ -5,19 +5,12 @@
     /// </summary>
     public enum AddressType
     {
-        /// <summary>
-        /// A residential address.
-        /// </summary>
+       
+        // A residential address. 
         Home=1,
-
-        /// <summary>
-        /// A workplace address.
-        /// </summary>
+        // A workplace address.
         Work=2,
-
-        /// <summary>
-        /// An address that does not fit another category.
-        /// </summary>
+        // An address that does not fit another category.
         Other=3
     }
 }

@@ -12,7 +12,7 @@ namespace RestaurantManagement.Models.Entity
     public class Address:BaseEntity
     {
         [Key] public int AddressId { get;set; }
-        [Required][StringLength(EntityConstants.MaxStreetLength,MinimumLength =EntityConstants.MaxStreetLength)] public string Street{ get; set; }
+        [Required][StringLength(EntityConstants.MaxStreetLength,MinimumLength =EntityConstants.MinStreetLength)] public string Street{ get; set; }
         [Required] [StringLength(EntityConstants.MaxCityLength,MinimumLength =EntityConstants.MinCityLength)] public string City { get; set; }
         [Required] [StringLength(EntityConstants.MaxStateLength,MinimumLength =EntityConstants.MinStateLength)]public string State { get; set; }
         [Required] [StringLength(EntityConstants.MaxPinCodeLength)]public string PinCode { get; set; }

@@ -15,7 +15,7 @@ namespace RestaurantManagement.Models.Entity
         [Required] public int RestaurantId { get; set; }
         [ForeignKey("RestaurantId")] public virtual Restaurant Restaurant { get; set; }
         [Required] [StringLength(EntityConstants.MaxDishNameLength)]public string DishName { get; set; }
-        [Required][Range(typeof(decimal), "1.0", "79228162514264337593543950335")]public Decimal Price { get; set; }
+        [Required][Range(typeof(decimal), "1.0",EntityConstants.MaxDecimalLength)]public decimal Price { get; set; }
         [Required][Range(0,int.MaxValue)] public int AvailableQuantity { get; set; }
 
     }

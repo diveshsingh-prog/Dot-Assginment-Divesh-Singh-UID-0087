@@ -39,7 +39,7 @@ namespace RestaurantManagement.Data
         public DbSet<Address> Addresses { get; set; }
 
         /// <summary>Gets or sets the user-address relationships.</summary>
-        public DbSet<UserAddress> UserAdress { get; set; }
+        public DbSet<UserAddress> UserAddresses { get; set; }
 
         /// <summary>
         /// Configures the database model used by this context.
