@@ -58,11 +58,10 @@ namespace RestaurantManagement.Repository
         /// </summary>
         /// <param name="userentity">The user entity to add.</param>
         /// <returns>The ID of the newly added user.</returns>
-        public async Task<int> AddUserAsync(User userentity)
+        public async Task AddUserAsync(User userentity)
         {
             _db.Users.Add(userentity);
             await _db.SaveChangesAsync();
-            return userentity.userId;
         }
     }
 }

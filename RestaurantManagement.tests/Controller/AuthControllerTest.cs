@@ -22,11 +22,6 @@ namespace RestaurantManagement.tests.Controller
     public class AuthControllerTest
     {
         /// <summary>
-        /// Provides context for the current test run.
-        /// </summary>
-        public TestContext TestContext { get; set; }
-
-        /// <summary>
         /// Mock user service used by the controller under test.
         /// </summary>
         private Mock<IUserService> _mockser;
@@ -62,7 +57,7 @@ namespace RestaurantManagement.tests.Controller
                 BirthDate = DateTime.Parse("2000-01-01 00:00:00")
             };
 
-            _mockser.Setup(r => r.AdduserAsync(incominguser)).ReturnsAsync(ValidationMessages.succes);
+            _mockser.Setup(r => r.AdduserAsync(incominguser));
 
             //ACT
             var response = await _signup.Signup(incominguser);
@@ -71,41 +66,11 @@ namespace RestaurantManagement.tests.Controller
             //{
             //    Assert.Fail(response.Meassage);
             //}
-            var createdResult = response as CreatedNegotiatedContentResult<AddUserRequest>;
+            var createdResult = response as OkNegotiatedContentResult<string>;
             //Assert.Fail(createdResult);
             //Assert.Fail($"Name was: {createdResult==null}");
-            Assert.IsNotNull(createdResult, ValidationMessages.succes);
-            Assert.AreEqual("DIVESH", createdResult.Content.Name);
+            Assert.IsNotNull(createdResult);
+          
         }
-
-        /// <summary>
-        /// Verifies that an invalid email produces a model-state error response.
-        /// </summary>
-      
-        [TestMethod]
-        public async Task EmailExists()
-        {
-            //ARRANGE
-            var incominguser = new AddUserRequest()
-            {
-                Name = "DIVESH",
-                Email = "divesh@gmail.com",
-                Password = "123234@aA",
-                PhoneNumber = "1232334299",
-                BirthDate = DateTime.Parse("2000-01-01 00:00:00")
-            };
-
-            _mockser.Setup(r => r.AdduserAsync(incominguser)).ReturnsAsync(ValidationMessages.DuplicateEmailAndPhone);
-
-            //ACT
-            var response = await _signup.Signup(incominguser);
-            //ASSERT
-            var BadResult = response as BadRequestErrorMessageResult;
-            Assert.IsNotNull(BadResult, ValidationMessages.DuplicateEmailAndPhone);
-        }
-
-
-
-
     }
 }

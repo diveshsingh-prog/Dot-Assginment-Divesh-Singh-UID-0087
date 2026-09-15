@@ -42,18 +42,29 @@ namespace RestaurantManagement.tests.Services
             var testuser = new AddUserRequest()
             {
                 Name = "aabb",
-                Password = "lkiju",
+                Password = "Lhubyyhb@1",
                 Email = "jnjnu@hh.com",
-                PhoneNumber = "768099",
+                PhoneNumber = "7680987879",
                 BirthDate = DateTime.Parse("2000-01-01 00:00:00")
             };
             _mockrepo.Setup(e => e.EmailExistsAsync(testuser.Email)).ReturnsAsync(false);
             _mockrepo.Setup(e => e.PhoneNumberExistsAsync(testuser.PhoneNumber)).ReturnsAsync(false);
-            _mockrepo.Setup(e => e.AddUserAsync(It.IsAny<User>())).ReturnsAsync(1);
+            _mockrepo.Setup(e => e.AddUserAsync(It.IsAny<User>()));
             //ACT
-            var res = await _userser.AdduserAsync(testuser);
-            //Asset
-            Assert.AreEqual(ValidationMessages.succes, res);
+            Exception thrownException = null;
+            try
+            {
+                await _userser.AdduserAsync(testuser);
+            }
+            catch (Exception ex)
+            {
+                thrownException = ex;
+            }
+
+            // ASSERT
+            // 1. Verify no exceptions (like ResourceException) were thrown
+            Assert.IsNull(thrownException);
+
             //Assert.Fail(res);
 
         }
@@ -74,12 +85,21 @@ namespace RestaurantManagement.tests.Services
             };
             _mockrepo.Setup(e => e.EmailExistsAsync(testuser.Email)).ReturnsAsync(true);
             _mockrepo.Setup(e => e.PhoneNumberExistsAsync(testuser.PhoneNumber)).ReturnsAsync(false);
-            _mockrepo.Setup(e => e.AddUserAsync(It.IsAny<User>())).ReturnsAsync(1);
+            _mockrepo.Setup(e => e.AddUserAsync(It.IsAny<User>()));
             //ACT
-            var res = await _userser.AdduserAsync(testuser);
-            //Asset
-            Assert.AreEqual("Same email and phone number", res);
-            //Assert.Fail(res);
+            Exception thrownException = null;
+            try
+            {
+                await _userser.AdduserAsync(testuser);
+            }
+            catch (Exception ex)
+            {
+                thrownException = ex;
+            }
+
+            // ASSERT
+            // 1. Verify no exceptions (like ResourceException) were thrown
+            Assert.IsNotNull(thrownException);
 
         }
     }

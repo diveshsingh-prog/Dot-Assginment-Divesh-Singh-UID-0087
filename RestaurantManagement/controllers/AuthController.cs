@@ -34,16 +34,8 @@ namespace RestaurantManagement.Controllers
         public async Task<IHttpActionResult> Signup(AddUserRequest adduser)
         {
             //System.Diagnostics.Debug.WriteLine(adduser);
-            var res = await _userservice.AdduserAsync(adduser);
-                if (res.Equals(ValidationMessages.succes))
-                {
-                    return Created(ValidationMessages.succes,adduser);
-                }
-                else
-                {
-                    return BadRequest(res);
-                  
-                }
+            await _userservice.AdduserAsync(adduser);
+            return Ok(ValidationMessages.succes);
              }
         }
     }

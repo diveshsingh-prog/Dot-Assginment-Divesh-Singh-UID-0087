@@ -1,4 +1,5 @@
 ﻿using RestaurantManagement.Models.Entity;
+using System;
 using System.Threading.Tasks;
 
 namespace RestaurantManagement.repository
@@ -27,7 +28,7 @@ namespace RestaurantManagement.repository
         /// </summary>
         /// <param name="userentity">The user to add.</param>
         /// <returns>The identifier of the added user.</returns>
-        Task<int> AddUserAsync(User userentity);
+        Task AddUserAsync(User userentity);
 
         /// <summary>
         /// Retrieves a user by email address.

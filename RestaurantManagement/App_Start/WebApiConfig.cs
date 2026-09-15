@@ -19,6 +19,7 @@ namespace RestaurantManagement
         {
             // Web API configuration and services
             config.Services.Replace(typeof(IExceptionHandler), new GlobalExceptionHandler());
+            config.Filters.Add(new Filters.ValidateModelAttribute());
             // Web API routes
             config.MapHttpAttributeRoutes();
 
